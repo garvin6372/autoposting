@@ -7,7 +7,6 @@ import {
   Trash2,
   Plus,
   AlertCircle,
-  Sparkles,
   Info
 } from 'lucide-react'
 import {
@@ -182,35 +181,6 @@ export const AccountsPage: React.FC = () => {
     }
   }
 
-  // Pre-configured Test Channel for pipeline rehearsal (Task 8)
-  const handleConnectTestChannel = async () => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) {
-        alert('Please sign in first.')
-        return
-      }
-
-      const { error } = await supabase.from('social_accounts').insert({
-        user_id: user.id,
-        platform: 'youtube', // using youtube as representative schema
-        platform_account_id: 'test_channel_' + Date.now(),
-        account_name: 'Test Channel (Rehearsal)',
-        username: '@test_channel',
-        profile_picture_url: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80',
-        status: 'connected',
-      })
-
-      if (error) {
-        alert(error.message)
-      } else {
-        fetchAccounts()
-      }
-    } catch (err: any) {
-      alert(err.message)
-    }
-  }
-
   const handleDisconnect = async (id: string) => {
     if (!confirm('Are you sure you want to disconnect this account? Stored tokens will be permanently deleted.')) return
 
@@ -225,7 +195,7 @@ export const AccountsPage: React.FC = () => {
 
   return (
     <div>
-      <Header title="Social Accounts" subtitle="Manage connected channels, OAuth credentials, and test channels" />
+      <Header title="Social Accounts" subtitle="Manage connected channels and OAuth credentials" />
 
       <div className="p-8 space-y-8 max-w-7xl mx-auto">
         {errorNotice && (
@@ -269,13 +239,6 @@ export const AccountsPage: React.FC = () => {
               <p className="text-xs text-slate-400">Accounts ready for automated publishing</p>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={handleConnectTestChannel}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 transition-all"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Add Test Channel (Rehearsal)</span>
-              </button>
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">
                 {accounts.length} Connected
               </span>
@@ -288,7 +251,7 @@ export const AccountsPage: React.FC = () => {
             </div>
           ) : accounts.length === 0 ? (
             <div className="p-8 rounded-2xl bg-slate-900/40 border border-slate-800 text-center">
-              <p className="text-sm text-slate-400">No accounts connected yet. Connect a platform below or click &quot;Add Test Channel&quot; to rehearse posting.</p>
+              <p className="text-sm text-slate-400">No accounts connected yet. Connect a social platform below to begin publishing.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

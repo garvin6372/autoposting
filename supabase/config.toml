@@ -1,0 +1,42 @@
+project_id = "vusbdvgspxjaoigqfipa"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+
+[auth]
+enabled = true
+site_url = "http://localhost:8080"
+additional_redirect_urls = ["https://localhost:8080"]
+jwt_expiry = 3600
+enable_signup = true
+
+[edge_runtime]
+enabled = true
+port = 54324
+
+# Function permissions
+[functions.oauth-callback]
+verify_jwt = false
+
+[functions.run-scheduler]
+verify_jwt = false
+
+[functions.publish-target]
+verify_jwt = false
+
+[functions.refresh-tokens]
+verify_jwt = false
+
+[functions.collect-analytics]
+verify_jwt = false

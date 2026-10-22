@@ -1,13 +1,27 @@
 @import "tailwindcss";
 
+@theme {
+  --color-slate-950: #000000;
+  --color-slate-900: #08080a;
+  --color-slate-850: #0f0f13;
+  --color-slate-800: #17181f;
+  --color-slate-700: #252632;
+  --color-slate-600: #3c3e50;
+  --color-slate-500: #686c85;
+  --color-slate-400: #9ba0b8;
+  --color-slate-300: #cdd1e5;
+  --color-slate-200: #e8ebf7;
+  --color-slate-100: #f6f8fd;
+}
+
 :root {
   color-scheme: dark;
 }
 
-body {
+html, body {
   margin: 0;
-  background-color: #090d16;
-  color: #f1f5f9;
+  background-color: #000000;
+  color: #f6f8fd;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
   min-height: 100vh;
 }
@@ -18,12 +32,34 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.4);
+  background: #1c1d25;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.6);
+  background: #2c2e3b;
+}
+
+/* Theme overrides */
+html[data-theme="charcoal"] {
+  background-color: #09090b !important;
+}
+html[data-theme="charcoal"] body {
+  background-color: #09090b !important;
+}
+
+html[data-theme="obsidian"] {
+  background-color: #000000 !important;
+}
+html[data-theme="obsidian"] body {
+  background-color: #000000 !important;
+}
+
+html[data-theme="midnight"] {
+  background-color: #050814 !important;
+}
+html[data-theme="midnight"] body {
+  background-color: #050814 !important;
 }

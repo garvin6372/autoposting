@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Header } from '@/components/layout/Header'
-import { Globe, Lock, RefreshCw, KeyRound, Check, Database } from 'lucide-react'
+import { Globe, Lock, RefreshCw, KeyRound, Check, Database, Moon } from 'lucide-react'
 
 export const SettingsPage: React.FC = () => {
   const [timeZone, setTimeZone] = useState('Asia/Kolkata')
+  const [theme, setTheme] = useState(() => localStorage.getItem('socialhub_theme') || 'obsidian')
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [savedSuccess, setSavedSuccess] = useState(false)
+
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme)
+    document.documentElement.setAttribute('data-theme', newTheme)
+    localStorage.setItem('socialhub_theme', newTheme)
+  }
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,6 +27,43 @@ export const SettingsPage: React.FC = () => {
 
       <div className="p-8 max-w-4xl mx-auto space-y-8">
         <form onSubmit={handleSaveSettings} className="space-y-6">
+          {/* Dark Theme Selection Card */}
+          <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-4">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-slate-800 text-indigo-400">
+                <Moon className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-white">Appearance & Dark Theme</h3>
+                <p className="text-xs text-slate-400">Select your preferred high-contrast dark aesthetic</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              {[
+                { id: 'obsidian', name: 'Obsidian OLED', desc: 'Pure pitch black #000000 for maximum contrast and OLED screens.' },
+                { id: 'charcoal', name: 'Charcoal Dark', desc: 'Deep zinc #09090b modern dark aesthetic.' },
+                { id: 'midnight', name: 'Midnight Navy', desc: 'Deep subtle indigo-navy tinted dark mode.' },
+              ].map((t) => (
+                <div
+                  key={t.id}
+                  onClick={() => handleThemeChange(t.id)}
+                  className={`cursor-pointer p-4 rounded-xl border text-xs transition ${
+                    theme === t.id
+                      ? 'bg-indigo-950/40 border-indigo-500 text-white shadow-lg shadow-indigo-950/30'
+                      : 'bg-slate-950/60 border-slate-800 text-slate-300 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="font-bold text-white text-xs">{t.name}</span>
+                    {theme === t.id && <span className="w-2 h-2 rounded-full bg-indigo-400" />}
+                  </div>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">{t.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Time Zone Card */}
           <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800/80 space-y-4">
             <div className="flex items-center gap-2.5">
